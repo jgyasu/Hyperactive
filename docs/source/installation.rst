@@ -143,25 +143,10 @@ Verifying Installation
 
 After installation, verify that Hyperactive is working correctly:
 
-.. code-block:: python
-
-    import hyperactive
-    print(f"Hyperactive version: {hyperactive.__version__}")
-
-    # Quick test
-    import numpy as np
-    from hyperactive.opt.gfo import HillClimbing
-
-    def objective(params):
-        return -(params["x"] ** 2)
-
-    optimizer = HillClimbing(
-        search_space={"x": np.arange(-5, 5, 0.1)},
-        n_iter=10,
-        experiment=objective,
-    )
-    best = optimizer.solve()
-    print(f"Test optimization successful: {best}")
+.. literalinclude:: _snippets/installation/verify_installation.py
+   :language: python
+   :start-after: # [start:verify_installation]
+   :end-before: # [end:verify_installation]
 
 
 Python Version Support

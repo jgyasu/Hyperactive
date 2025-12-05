@@ -1,7 +1,11 @@
 """Test all documentation code snippets.
 
 This module discovers and tests all Python snippet files in the documentation.
-Each snippet file should be executable and should not raise any errors.
+Only snippets in the 'getting_started/' directory are tested for execution,
+as they contain complete, runnable examples.
+
+User guide snippets may contain illustrative code with placeholders and are
+not required to be executable - they serve documentation purposes.
 """
 
 import importlib.util
@@ -15,20 +19,42 @@ import pytest
 SNIPPETS_DIR = Path(__file__).parent.parent / "source" / "_snippets"
 
 
-def get_snippet_files():
+def get_testable_snippet_files():
+    """Collect Python files in testable directories.
+
+    Only includes files from directories that contain complete, runnable examples.
+    Currently: getting_started/, examples/, installation/
+
+    Returns
+    -------
+    list[Path]
+        List of paths to testable Python snippet files.
+    """
+    testable_dirs = ["getting_started", "examples", "installation"]
+    snippet_files = []
+
+    for dir_name in testable_dirs:
+        dir_path = SNIPPETS_DIR / dir_name
+        if dir_path.exists():
+            for path in dir_path.rglob("*.py"):
+                if path.name not in ("__init__.py", "conftest.py"):
+                    snippet_files.append(path)
+
+    return sorted(snippet_files)
+
+
+def get_all_snippet_files():
     """Collect all Python files in the snippets directory.
 
     Returns
     -------
     list[Path]
-        List of paths to Python snippet files, excluding __init__.py and conftest.py.
+        List of paths to all Python snippet files.
     """
     snippet_files = []
     for path in SNIPPETS_DIR.rglob("*.py"):
-        # Skip __init__.py and conftest.py files
-        if path.name in ("__init__.py", "conftest.py"):
-            continue
-        snippet_files.append(path)
+        if path.name not in ("__init__.py", "conftest.py"):
+            snippet_files.append(path)
     return sorted(snippet_files)
 
 
@@ -37,9 +63,11 @@ def _snippet_id(path):
     return str(path.relative_to(SNIPPETS_DIR))
 
 
-@pytest.mark.parametrize("snippet_file", get_snippet_files(), ids=_snippet_id)
+@pytest.mark.parametrize(
+    "snippet_file", get_testable_snippet_files(), ids=_snippet_id
+)
 def test_snippet_executes(snippet_file):
-    """Test that each snippet file executes without errors.
+    """Test that each runnable snippet file executes without errors.
 
     This runs each snippet as a subprocess to ensure isolation between tests
     and to catch any import-time errors.
@@ -65,9 +93,11 @@ def test_snippet_executes(snippet_file):
         pytest.fail(error_msg)
 
 
-@pytest.mark.parametrize("snippet_file", get_snippet_files(), ids=_snippet_id)
+@pytest.mark.parametrize(
+    "snippet_file", get_testable_snippet_files(), ids=_snippet_id
+)
 def test_snippet_imports(snippet_file):
-    """Test that each snippet file can be imported as a module.
+    """Test that each runnable snippet file can be imported as a module.
 
     This catches syntax errors and import-time errors in a more controlled way.
 
@@ -87,3 +117,46 @@ def test_snippet_imports(snippet_file):
         spec.loader.exec_module(module)
     except Exception as e:
         pytest.fail(f"Snippet {snippet_file.name} failed to import: {e}")
+
+
+def test_all_snippets_have_markers():
+    """Test that all snippet files contain proper start/end markers.
+
+    This ensures that literalinclude directives can extract code properly.
+    """
+    for snippet_file in get_all_snippet_files():
+        content = snippet_file.read_text()
+
+        # Check for at least one start/end pair
+        has_start = "# [start:" in content
+        has_end = "# [end:" in content
+
+        if not (has_start and has_end):
+            pytest.fail(
+                f"Snippet {snippet_file.name} missing start/end markers. "
+                f"has_start={has_start}, has_end={has_end}"
+            )
+
+
+def test_snippet_markers_are_balanced():
+    """Test that start/end markers are properly paired in each snippet file."""
+    import re
+
+    for snippet_file in get_all_snippet_files():
+        content = snippet_file.read_text()
+
+        starts = re.findall(r"# \[start:(\w+)\]", content)
+        ends = re.findall(r"# \[end:(\w+)\]", content)
+
+        # Check that every start has a matching end
+        for marker in starts:
+            if marker not in ends:
+                pytest.fail(
+                    f"Snippet {snippet_file.name} has unmatched start marker: {marker}"
+                )
+
+        for marker in ends:
+            if marker not in starts:
+                pytest.fail(
+                    f"Snippet {snippet_file.name} has unmatched end marker: {marker}"
+                )

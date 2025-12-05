@@ -34,28 +34,10 @@ Custom Function Optimization
 
 The simplest use case: optimizing a mathematical function.
 
-.. code-block:: python
-
-    import numpy as np
-    from hyperactive.opt.gfo import HillClimbing
-
-    def objective(params):
-        x = params["x"]
-        y = params["y"]
-        return -(x**2 + y**2)  # Maximize (minimize the parabola)
-
-    search_space = {
-        "x": np.arange(-5, 5, 0.1),
-        "y": np.arange(-5, 5, 0.1),
-    }
-
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
-    best_params = optimizer.solve()
-    print(f"Best parameters: {best_params}")
+.. literalinclude:: _snippets/examples/basic_examples.py
+   :language: python
+   :start-after: # [start:custom_function]
+   :end-before: # [end:custom_function]
 
 
 Scikit-learn Model Tuning
@@ -63,38 +45,10 @@ Scikit-learn Model Tuning
 
 Hyperparameter optimization for machine learning models.
 
-.. code-block:: python
-
-    from sklearn.datasets import load_wine
-    from sklearn.ensemble import RandomForestClassifier
-    from hyperactive.experiment.integrations import SklearnCvExperiment
-    from hyperactive.opt.gfo import HillClimbing
-
-    # Load data
-    X, y = load_wine(return_X_y=True)
-
-    # Create experiment
-    experiment = SklearnCvExperiment(
-        estimator=RandomForestClassifier(random_state=42),
-        X=X, y=y, cv=3,
-    )
-
-    # Define search space
-    search_space = {
-        "n_estimators": list(range(10, 201)),
-        "max_depth": list(range(1, 21)),
-        "min_samples_split": list(range(2, 21)),
-        "min_samples_leaf": list(range(1, 11)),
-    }
-
-    # Optimize
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=40,
-        random_state=42,
-        experiment=experiment,
-    )
-    best_params = optimizer.solve()
+.. literalinclude:: _snippets/examples/basic_examples.py
+   :language: python
+   :start-after: # [start:sklearn_tuning]
+   :end-before: # [end:sklearn_tuning]
 
 
 Gradient-Free Optimizer Examples
@@ -258,22 +212,10 @@ Warm Starting Optimization
 
 Start optimization from known good points:
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import HillClimbing
-
-    # Previous best parameters
-    warm_start_points = [
-        {"n_estimators": 100, "max_depth": 10, "min_samples_split": 5},
-    ]
-
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=40,
-        experiment=experiment,
-        initialize={"warm_start": warm_start_points},
-    )
-    best_params = optimizer.solve()
+.. literalinclude:: _snippets/examples/advanced_examples.py
+   :language: python
+   :start-after: # [start:warm_starting]
+   :end-before: # [end:warm_starting]
 
 
 Comparing Optimizers
@@ -281,34 +223,10 @@ Comparing Optimizers
 
 Compare different optimization strategies:
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import (
-        HillClimbing,
-        RandomSearch,
-        BayesianOptimizer,
-        ParticleSwarmOptimizer,
-    )
-
-    optimizers = {
-        "HillClimbing": HillClimbing,
-        "RandomSearch": RandomSearch,
-        "Bayesian": BayesianOptimizer,
-        "ParticleSwarm": ParticleSwarmOptimizer,
-    }
-
-    results = {}
-    for name, OptClass in optimizers.items():
-        optimizer = OptClass(
-            search_space=search_space,
-            n_iter=50,
-            experiment=experiment,
-            random_state=42,
-        )
-        best = optimizer.solve()
-        score, _ = experiment.score(best)
-        results[name] = {"params": best, "score": score}
-        print(f"{name}: score={score:.4f}")
+.. literalinclude:: _snippets/examples/advanced_examples.py
+   :language: python
+   :start-after: # [start:comparing_optimizers]
+   :end-before: # [end:comparing_optimizers]
 
 
 Interactive Tutorial

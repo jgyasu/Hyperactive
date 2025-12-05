@@ -53,58 +53,38 @@ They're fast but may get stuck in local optima.
 
 The simplest local search: always move to a better neighbor.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import HillClimbing
-
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:hill_climbing]
+   :end-before: # [end:hill_climbing]
 
 **Simulated Annealing**
 
 Like hill climbing, but sometimes accepts worse solutions to escape local optima.
 The "temperature" controls exploration vs exploitation.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import SimulatedAnnealing
-
-    optimizer = SimulatedAnnealing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:simulated_annealing]
+   :end-before: # [end:simulated_annealing]
 
 **Repulsing Hill Climbing**
 
 Remembers visited regions and avoids them, encouraging broader exploration.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import RepulsingHillClimbing
-
-    optimizer = RepulsingHillClimbing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:repulsing_hill_climbing]
+   :end-before: # [end:repulsing_hill_climbing]
 
 **Downhill Simplex (Nelder-Mead)**
 
 Uses a simplex of points to navigate the search space. Good for continuous problems.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import DownhillSimplexOptimizer
-
-    optimizer = DownhillSimplexOptimizer(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:downhill_simplex]
+   :end-before: # [end:downhill_simplex]
 
 
 Global Search
@@ -116,50 +96,37 @@ Global search optimizers explore the entire search space more thoroughly.
 
 Samples random points from the search space. Simple but surprisingly effective baseline.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import RandomSearch
-
-    optimizer = RandomSearch(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:random_search]
+   :end-before: # [end:random_search]
 
 **Grid Search**
 
 Evaluates all combinations systematically. Only practical for small search spaces.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import GridSearch
-
-    optimizer = GridSearch(
-        search_space=search_space,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:grid_search]
+   :end-before: # [end:grid_search]
 
 **Random Restart Hill Climbing**
 
 Runs hill climbing from multiple random starting points.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import RandomRestartHillClimbing
-
-    optimizer = RandomRestartHillClimbing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:random_restart_hill_climbing]
+   :end-before: # [end:random_restart_hill_climbing]
 
 **Powell's Method** and **Pattern Search**
 
 Classical derivative-free optimization methods.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import PowellsMethod, PatternSearch
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:powells_pattern]
+   :end-before: # [end:powells_pattern]
 
 
 Population Methods
@@ -173,61 +140,55 @@ They're excellent for complex, multi-modal optimization landscapes.
 Particles "fly" through the search space, influenced by their own best position
 and the swarm's best position.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import ParticleSwarmOptimizer
-
-    optimizer = ParticleSwarmOptimizer(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:particle_swarm]
+   :end-before: # [end:particle_swarm]
 
 **Genetic Algorithm**
 
 Evolves a population using selection, crossover, and mutation inspired by biology.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import GeneticAlgorithm
-
-    optimizer = GeneticAlgorithm(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:genetic_algorithm]
+   :end-before: # [end:genetic_algorithm]
 
 **Evolution Strategy**
 
 Similar to genetic algorithms but focused on real-valued optimization.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import EvolutionStrategy
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:evolution_strategy]
+   :end-before: # [end:evolution_strategy]
 
 **Differential Evolution**
 
 Uses vector differences to guide mutation. Excellent for continuous optimization.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import DifferentialEvolution
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:differential_evolution]
+   :end-before: # [end:differential_evolution]
 
 **Parallel Tempering**
 
 Runs multiple chains at different "temperatures" and exchanges information between them.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import ParallelTempering
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:parallel_tempering]
+   :end-before: # [end:parallel_tempering]
 
 **Spiral Optimization**
 
 Particles spiral toward the best solution found so far.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import SpiralOptimization
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:spiral_optimization]
+   :end-before: # [end:spiral_optimization]
 
 
 Sequential Model-Based (Bayesian)
@@ -241,39 +202,37 @@ where to sample next. Best for expensive evaluations.
 Uses Gaussian Process regression to model the objective and acquisition functions
 to balance exploration and exploitation.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import BayesianOptimizer
-
-    optimizer = BayesianOptimizer(
-        search_space=search_space,
-        n_iter=50,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:bayesian_optimizer]
+   :end-before: # [end:bayesian_optimizer]
 
 **Tree-Structured Parzen Estimators (TPE)**
 
 Models the distribution of good and bad parameters separately.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import TreeStructuredParzenEstimators
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:tpe]
+   :end-before: # [end:tpe]
 
 **Forest Optimizer**
 
 Uses Random Forest to model the objective function.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import ForestOptimizer
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:forest_optimizer]
+   :end-before: # [end:forest_optimizer]
 
 **Lipschitz Optimization** and **DIRECT Algorithm**
 
 Use Lipschitz continuity assumptions to guide the search.
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import LipschitzOptimizer, DirectAlgorithm
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:lipschitz_direct]
+   :end-before: # [end:lipschitz_direct]
 
 
 Optuna Backend
@@ -281,30 +240,17 @@ Optuna Backend
 
 Hyperactive provides wrappers for Optuna's powerful samplers:
 
-.. code-block:: python
-
-    from hyperactive.opt.optuna import (
-        TPEOptimizer,       # Tree-Parzen Estimators
-        CmaEsOptimizer,     # CMA-ES evolution strategy
-        GPOptimizer,        # Gaussian Process
-        NSGAIIOptimizer,    # Multi-objective (NSGA-II)
-        NSGAIIIOptimizer,   # Multi-objective (NSGA-III)
-        QMCOptimizer,       # Quasi-Monte Carlo
-        RandomOptimizer,    # Random sampling
-        GridOptimizer,      # Grid search
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:optuna_imports]
+   :end-before: # [end:optuna_imports]
 
 Example with Optuna TPE:
 
-.. code-block:: python
-
-    from hyperactive.opt.optuna import TPEOptimizer
-
-    optimizer = TPEOptimizer(
-        search_space=search_space,
-        n_iter=50,
-        experiment=objective,
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:optuna_tpe]
+   :end-before: # [end:optuna_tpe]
 
 
 Optimizer Configuration
@@ -315,20 +261,10 @@ Common Parameters
 
 All optimizers accept these parameters:
 
-.. code-block:: python
-
-    optimizer = SomeOptimizer(
-        search_space=search_space,  # Required: parameter ranges
-        n_iter=100,                  # Required: number of iterations
-        experiment=objective,        # Required: objective function
-        random_state=42,             # Optional: for reproducibility
-        initialize={                 # Optional: initialization settings
-            "warm_start": [...],     # Starting points
-            "grid": 4,               # Grid initialization points
-            "random": 2,             # Random initialization points
-            "vertices": 4,           # Vertex initialization points
-        },
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:common_parameters]
+   :end-before: # [end:common_parameters]
 
 
 Initialization Strategies
@@ -336,32 +272,15 @@ Initialization Strategies
 
 Control how the optimizer initializes its search:
 
-.. code-block:: python
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:warm_start_example]
+   :end-before: # [end:warm_start_example]
 
-    # Start from known good points
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=50,
-        experiment=objective,
-        initialize={
-            "warm_start": [
-                {"param1": 10, "param2": 0.5},
-                {"param1": 20, "param2": 0.3},
-            ]
-        },
-    )
-
-    # Mix of initialization strategies
-    optimizer = ParticleSwarmOptimizer(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-        initialize={
-            "grid": 4,      # 4 points on a grid
-            "random": 6,    # 6 random points
-            "vertices": 4,  # 4 corner points
-        },
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:initialization_strategies]
+   :end-before: # [end:initialization_strategies]
 
 
 Algorithm-Specific Parameters
@@ -371,17 +290,10 @@ Many optimizers have additional parameters. Check the :ref:`api_reference` for d
 
 Example with Simulated Annealing:
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import SimulatedAnnealing
-
-    optimizer = SimulatedAnnealing(
-        search_space=search_space,
-        n_iter=100,
-        experiment=objective,
-        # Algorithm-specific parameters
-        # (check API reference for available options)
-    )
+.. literalinclude:: ../_snippets/user_guide/optimizers.py
+   :language: python
+   :start-after: # [start:simulated_annealing_config]
+   :end-before: # [end:simulated_annealing_config]
 
 
 Performance Tips

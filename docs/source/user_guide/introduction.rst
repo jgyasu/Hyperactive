@@ -26,26 +26,17 @@ and returns a score that Hyperactive will maximize.
 
 The simplest experiment is a Python function:
 
-.. code-block:: python
-
-    def objective(params):
-        x = params["x"]
-        y = params["y"]
-        # Return a score to maximize
-        return -(x**2 + y**2)
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:simple_objective]
+   :end-before: # [end:simple_objective]
 
 For machine learning, Hyperactive provides built-in experiments:
 
-.. code-block:: python
-
-    from hyperactive.experiment.integrations import SklearnCvExperiment
-
-    experiment = SklearnCvExperiment(
-        estimator=RandomForestClassifier(),
-        X=X_train,
-        y=y_train,
-        cv=5,
-    )
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:sklearn_experiment_intro]
+   :end-before: # [end:sklearn_experiment_intro]
 
 See :ref:`user_guide_experiments` for more details.
 
@@ -56,14 +47,10 @@ Optimizers: How to Optimize
 An **optimizer** is the algorithm that explores the search space to find the best parameters.
 Hyperactive provides 20+ optimizers in different categories:
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import (
-        HillClimbing,           # Local search
-        RandomSearch,           # Global search
-        BayesianOptimizer,      # Sequential model-based
-        ParticleSwarmOptimizer, # Population-based
-    )
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:optimizer_imports]
+   :end-before: # [end:optimizer_imports]
 
 Each optimizer has different characteristics:
 
@@ -81,20 +68,10 @@ Search Spaces: Where to Search
 A **search space** defines the possible values for each parameter.
 Use dictionaries with lists or NumPy arrays:
 
-.. code-block:: python
-
-    import numpy as np
-
-    search_space = {
-        # Discrete integer values
-        "n_estimators": list(range(10, 200, 10)),
-
-        # Continuous values (discretized)
-        "learning_rate": np.logspace(-4, 0, 20),
-
-        # Categorical values
-        "kernel": ["linear", "rbf", "poly"],
-    }
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:search_space_definition]
+   :end-before: # [end:search_space_definition]
 
 .. tip::
 
@@ -112,56 +89,37 @@ Step 1: Define Your Experiment
 
 Either as a function or using built-in experiment classes:
 
-.. code-block:: python
-
-    # Option A: Custom function
-    def my_objective(params):
-        # Your evaluation logic here
-        return score
-
-    # Option B: Built-in sklearn experiment
-    from hyperactive.experiment.integrations import SklearnCvExperiment
-
-    experiment = SklearnCvExperiment(
-        estimator=YourEstimator(),
-        X=X, y=y, cv=5,
-    )
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:workflow_experiment_options]
+   :end-before: # [end:workflow_experiment_options]
 
 
 Step 2: Define the Search Space
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
-
-    search_space = {
-        "param1": [1, 2, 3, 4, 5],
-        "param2": np.linspace(0.1, 1.0, 10),
-        "param3": ["option_a", "option_b"],
-    }
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:workflow_search_space]
+   :end-before: # [end:workflow_search_space]
 
 
 Step 3: Choose an Optimizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
-
-    from hyperactive.opt.gfo import HillClimbing
-
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=100,           # Number of iterations
-        experiment=experiment,
-        random_state=42,      # For reproducibility
-    )
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:workflow_optimizer]
+   :end-before: # [end:workflow_optimizer]
 
 
 Step 4: Run the Optimization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
-
-    best_params = optimizer.solve()
-    print(f"Best parameters: {best_params}")
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:workflow_solve]
+   :end-before: # [end:workflow_solve]
 
 
 Common Optimizer Parameters
@@ -198,18 +156,10 @@ Warm Starting
 
 You can provide starting points for optimization:
 
-.. code-block:: python
-
-    warm_start = [
-        {"n_estimators": 100, "max_depth": 10},  # Start from known good point
-    ]
-
-    optimizer = HillClimbing(
-        search_space=search_space,
-        n_iter=50,
-        experiment=experiment,
-        initialize={"warm_start": warm_start},
-    )
+.. literalinclude:: ../_snippets/user_guide/introduction.py
+   :language: python
+   :start-after: # [start:warm_starting]
+   :end-before: # [end:warm_starting]
 
 
 Tips for Effective Optimization
