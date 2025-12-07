@@ -73,7 +73,7 @@ def create_badge_svg(label: str, value: str, color: str, label_width: int = None
     return svg
 
 
-def create_simple_badge_svg(text: str, color: str, width: int = None) -> str:
+def create_simple_badge_svg(text: str, color: str, width: int = None, font_size: int = 11) -> str:
     """
     Create a simple single-section SVG badge.
 
@@ -81,6 +81,7 @@ def create_simple_badge_svg(text: str, color: str, width: int = None) -> str:
         text: Badge text
         color: Background color
         width: Override calculated width
+        font_size: Font size in pixels
 
     Returns:
         SVG string
@@ -89,11 +90,12 @@ def create_simple_badge_svg(text: str, color: str, width: int = None) -> str:
     padding = 16
     w = width or int(len(text) * char_width + padding * 2)
     height = 20
+    text_y = 14 if font_size >= 11 else 13.5
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{height}">
   <title>{text}</title>
   <rect width="{w}" height="{height}" fill="{color}"/>
-  <text x="{w/2}" y="14" fill="#fff" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11" text-anchor="middle" font-weight="600">{text}</text>
+  <text x="{w/2}" y="{text_y}" fill="#fff" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="{font_size}" text-anchor="middle" font-weight="600">{text}</text>
 </svg>'''
 
     return svg
@@ -163,7 +165,7 @@ def main():
         "version.svg": create_badge_svg("version", f"v{version}", COLORS["primary"]),
         "python.svg": create_badge_svg("python", python_range, COLORS["primary"]),
         "license.svg": create_badge_svg("license", license_name, COLORS["primary"]),
-        "sponsor.svg": create_simple_badge_svg("GC.OS Sponsored", COLORS["sponsor"], width=110),
+        "sponsor.svg": create_simple_badge_svg("GC.OS Sponsored", COLORS["sponsor"], width=105, font_size=10),
     }
 
     # Write badges

@@ -385,10 +385,46 @@ if _py_versions:
 else:
     _py_versions_inline = "3.10+"
 
+
+# -- Count algorithms and integrations dynamically ----------------------------
+def count_from_all_list(module_path: str) -> int:
+    """Count items in __all__ list of a Python module file."""
+    import ast
+
+    file_path = Path(__file__).parent.parent.parent / "src" / module_path
+    if not file_path.exists():
+        return 0
+
+    try:
+        tree = ast.parse(file_path.read_text())
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name) and target.id == "__all__":
+                        if isinstance(node.value, ast.List):
+                            return len(node.value.elts)
+    except Exception:
+        pass
+    return 0
+
+
+# Count algorithms from opt/__init__.py
+_n_algorithms = count_from_all_list("hyperactive/opt/__init__.py")
+
+# Count integrations from experiment/integrations/__init__.py
+_n_integrations = count_from_all_list("hyperactive/experiment/integrations/__init__.py")
+
+# Backends are conceptual (GFO, Optuna, sklearn) - hardcoded
+_n_backends = 3
+
+
 rst_epilog = f"""
 .. |version| replace:: {PYPROJECT_METADATA["version"]}
 .. |min_python| replace:: {PYPROJECT_METADATA["min_python"]}
 .. |python_versions_list| replace:: {_py_versions_inline}
 .. |python_version_range| replace:: {_py_version_range}
 .. |current_year| replace:: {current_year}
+.. |n_algorithms| replace:: {_n_algorithms}
+.. |n_backends| replace:: {_n_backends}
+.. |n_integrations| replace:: {_n_integrations}
 """

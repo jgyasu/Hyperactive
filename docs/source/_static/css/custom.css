@@ -68,6 +68,17 @@ html[data-theme="dark"] {
 }
 
 /* ============================================
+   Right Sidebar - On This Page spacing
+   ============================================ */
+.bd-toc-nav.page-toc {
+    margin-top: 1.25rem;
+}
+
+.pst-page-navigation-heading {
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
    Hero Section
    ============================================ */
 .hero-section {
@@ -123,12 +134,110 @@ html[data-theme="dark"] {
 }
 
 /* ============================================
+   Stats Strip (below hero)
+   ============================================ */
+.stats-strip {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0;
+    margin: 0 0 2rem 0;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--pst-color-border);
+    background: var(--pst-color-surface);
+}
+
+.stat-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: var(--pst-color-border);
+}
+
+.stat-item:hover {
+    background: var(--pst-color-background);
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--hyperactive-primary);
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+html[data-theme="dark"] .stat-value {
+    color: var(--hyperactive-secondary);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--pst-color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 640px) {
+    .stats-strip {
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        flex: 1 1 50%;
+        padding: 1rem 0.75rem;
+    }
+
+    .stat-item:not(:last-child)::after {
+        display: none;
+    }
+
+    .stat-item:nth-child(1),
+    .stat-item:nth-child(2) {
+        border-bottom: 1px solid var(--pst-color-border);
+    }
+
+    .stat-item:nth-child(odd) {
+        border-right: 1px solid var(--pst-color-border);
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================
    Badge Banner (replaces Maturity Banner)
    ============================================ */
 .badge-banner {
     text-align: center;
-    padding: 1.25rem 1rem;
-    margin: 1.5rem 0;
+    padding: 1rem 1rem 1.5rem;
+    margin: 1rem 0;
 }
 
 .badge-items {
@@ -141,17 +250,14 @@ html[data-theme="dark"] {
 
 .badge-items a {
     display: inline-block;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.badge-items a:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+    line-height: 0;
 }
 
 .badge-items img {
-    height: 20px;
+    height: 28px;
     vertical-align: middle;
+    border-radius: 0 !important;
+    image-rendering: crisp-edges;
 }
 
 /* Legacy Maturity Banner (kept for backwards compatibility) */

@@ -9,6 +9,26 @@
       </div>
    </div>
 
+   <!-- Stats are auto-counted in conf.py: n_algorithms, n_backends, n_integrations -->
+   <div class="stats-strip">
+      <div class="stat-item">
+         <div class="stat-value" id="stat-algorithms">31</div>
+         <div class="stat-label">Algorithms</div>
+      </div>
+      <div class="stat-item">
+         <div class="stat-value" id="stat-backends">3</div>
+         <div class="stat-label">Backends</div>
+      </div>
+      <div class="stat-item">
+         <div class="stat-value" id="stat-integrations">5</div>
+         <div class="stat-label">Integrations</div>
+      </div>
+      <div class="stat-item">
+         <div class="stat-value">1</div>
+         <div class="stat-label">Unified API</div>
+      </div>
+   </div>
+
 
 Hyperactive provides a collection of optimization algorithms, accessible through a unified
 experiment-based interface that separates optimization problems from algorithms. The library
